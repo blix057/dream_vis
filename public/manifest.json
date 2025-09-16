@@ -1,0 +1,10 @@
+{
+  "name": "Dream Visualizer",
+  "short_name": "DreamVis",
+  "description": "Turn dreams into images and share them.",
+  "theme_color": "#0b0f19",
+  "background_color": "#0b0f19",
+  "display": "standalone",
+  "start_url": "/",
+  "icons": []
+}
