@@ -21,11 +21,12 @@ export default function ResultGrid() {
       const q = url.searchParams.get('q')
       const n = url.searchParams.get('n')
       const s = url.searchParams.get('s')
+      const st = url.searchParams.get('style')
       if (q) {
         fetch('/api/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt: q, count: n ? parseInt(n) : 4, size: (s as any) || '1024x1024', provider: 'pollinations', model: 'flux' })
+          body: JSON.stringify({ prompt: q, count: n ? parseInt(n) : 4, size: (s as any) || '1024x1024', provider: 'pollinations', model: 'flux', style: st === 'comic' ? 'comic' : 'realistic' })
         })
           .then(async (r) => {
             const data = await r.json()

@@ -9,6 +9,7 @@ export type GenerateRequest = {
   provider?: 'openai' | 'pollinations'
   model?: 'gpt-image-1' | 'dall-e-3' | 'flux'
   size?: '1024x1024' | '512x512' | '256x256'
+  style?: 'realistic' | 'comic'
 }
 
 export type GenerateResponse = {

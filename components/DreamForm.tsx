@@ -10,6 +10,7 @@ export default function DreamForm() {
   const [prompt, setPrompt] = useState('')
   const [count, setCount] = useState(4)
   const [size, setSize] = useState<'1024x1024' | '512x512' | '256x256'>('1024x1024')
+  const [style, setStyle] = useState<'realistic' | 'comic'>('realistic')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -17,9 +18,11 @@ export default function DreamForm() {
     const q = params.get('q')
     const c = params.get('n')
     const s = params.get('s')
+    const st = params.get('style')
     if (q) setPrompt(q)
     if (c) setCount(Math.max(1, Math.min(4, parseInt(c))))
     if (s === '1024x1024' || s === '512x512' || s === '256x256') setSize(s)
+    if (st === 'realistic' || st === 'comic') setStyle(st)
   }, [params])
 
   const canSubmit = useMemo(() => prompt.trim().length >= 5 && !loading, [prompt, loading])
@@ -32,12 +35,12 @@ export default function DreamForm() {
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, count, size, provider: 'pollinations', model: 'flux' })
+        body: JSON.stringify({ prompt, count, size, provider: 'pollinations', model: 'flux', style })
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.error || 'Failed to generate')
       // write to URL for shareable link
-      const search = new URLSearchParams({ q: prompt, n: String(count), s: size })
+      const search = new URLSearchParams({ q: prompt, n: String(count), s: size, style })
       router.push('/?' + search.toString())
       // Write results to sessionStorage so ResultGrid can read
       sessionStorage.setItem('dream_results', JSON.stringify(data))
@@ -58,6 +61,17 @@ export default function DreamForm() {
         onChange={(e) => setPrompt(e.target.value)}
       />
       <div className="flex flex-wrap items-center gap-3">
+        <label className="flex items-center gap-2">
+          <span className="text-zinc-300">Style:</span>
+          <select
+            className="rounded-md border border-zinc-700 bg-zinc-900 p-2"
+            value={style}
+            onChange={(e) => setStyle(e.target.value as 'realistic' | 'comic')}
+          >
+            <option value="realistic">Realistic</option>
+            <option value="comic">Vintage superhero comic</option>
+          </select>
+        </label>
         <label className="flex items-center gap-2">
           <span className="text-zinc-300">Images:</span>
           <select
