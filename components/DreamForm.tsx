@@ -10,7 +10,7 @@ export default function DreamForm() {
   const [prompt, setPrompt] = useState('')
   const [count, setCount] = useState(4)
   const [size, setSize] = useState<'1024x1024' | '512x512' | '256x256'>('1024x1024')
-  const [style, setStyle] = useState<'realistic' | 'comic'>('realistic')
+  const [style, setStyle] = useState<'realistic' | 'comic' | 'ghibli'>('realistic')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -22,7 +22,7 @@ export default function DreamForm() {
     if (q) setPrompt(q)
     if (c) setCount(Math.max(1, Math.min(4, parseInt(c))))
     if (s === '1024x1024' || s === '512x512' || s === '256x256') setSize(s)
-    if (st === 'realistic' || st === 'comic') setStyle(st)
+    if (st === 'realistic' || st === 'comic' || st === 'ghibli') setStyle(st as any)
   }, [params])
 
   const canSubmit = useMemo(() => prompt.trim().length >= 5 && !loading, [prompt, loading])
@@ -69,6 +69,7 @@ export default function DreamForm() {
             onChange={(e) => setStyle(e.target.value as 'realistic' | 'comic')}
           >
             <option value="realistic">Realistic</option>
+            <option value="ghibli">Ghibli-inspired</option>
             <option value="comic">Vintage superhero comic</option>
           </select>
         </label>

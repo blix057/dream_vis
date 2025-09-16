@@ -8,7 +8,7 @@ const bodySchema = z.object({
   provider: z.enum(['openai', 'pollinations']).default('pollinations'),
   model: z.enum(['gpt-image-1', 'dall-e-3', 'flux']).default('flux'),
   size: z.enum(['1024x1024', '512x512', '256x256']).default('1024x1024'),
-  style: z.enum(['realistic', 'comic']).default('realistic')
+  style: z.enum(['realistic', 'comic', 'ghibli']).default('realistic')
 })
 
 export const maxDuration = 60
@@ -33,6 +33,8 @@ export async function POST(req: NextRequest) {
 
     const styleSuffix = style === 'comic'
       ? 'vintage superhero comic book aesthetic, Ben-Day dots, bold ink lines, halftone shading, limited retro color palette, dynamic heroic composition'
+      : style === 'ghibli'
+      ? 'Studio Ghibli-inspired, whimsical hand-painted backgrounds, soft pastel color palette, gentle lighting, expressive characters, anime film style'
       : 'photorealistic, detailed textures, natural lighting, 35mm film look, high dynamic range'
 
     const styledPrompt = `${prompt}, ${styleSuffix}`
@@ -53,6 +55,8 @@ export async function POST(req: NextRequest) {
   try {
     const styleSuffix = style === 'comic'
       ? 'vintage superhero comic book aesthetic, Ben-Day dots, bold ink lines, halftone shading, limited retro color palette, dynamic heroic composition'
+      : style === 'ghibli'
+      ? 'Studio Ghibli-inspired, whimsical hand-painted backgrounds, soft pastel color palette, gentle lighting, expressive characters, anime film style'
       : 'photorealistic, detailed textures, natural lighting, 35mm film look, high dynamic range'
 
     const result = await openai.images.generate({
@@ -72,6 +76,8 @@ export async function POST(req: NextRequest) {
 
       const styleSuffix = style === 'comic'
         ? 'vintage superhero comic book aesthetic, Ben-Day dots, bold ink lines, halftone shading, limited retro color palette, dynamic heroic composition'
+        : style === 'ghibli'
+        ? 'Studio Ghibli-inspired, whimsical hand-painted backgrounds, soft pastel color palette, gentle lighting, expressive characters, anime film style'
         : 'photorealistic, detailed textures, natural lighting, 35mm film look, high dynamic range'
 
       const styledPrompt = `${prompt}, ${styleSuffix}`
