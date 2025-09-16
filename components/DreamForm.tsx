@@ -32,7 +32,7 @@ export default function DreamForm() {
       const res = await fetch('/api/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, count, size })
+        body: JSON.stringify({ prompt, count, size, provider: 'pollinations', model: 'flux' })
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.error || 'Failed to generate')

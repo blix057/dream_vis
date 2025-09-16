@@ -25,7 +25,7 @@ export default function ResultGrid() {
         fetch('/api/generate', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt: q, count: n ? parseInt(n) : 4, size: (s as any) || '1024x1024' })
+          body: JSON.stringify({ prompt: q, count: n ? parseInt(n) : 4, size: (s as any) || '1024x1024', provider: 'pollinations', model: 'flux' })
         })
           .then(async (r) => {
             const data = await r.json()

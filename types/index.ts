@@ -6,7 +6,8 @@ export type GeneratedImage = {
 export type GenerateRequest = {
   prompt: string
   count?: number
-  model?: 'gpt-image-1' | 'dall-e-3'
+  provider?: 'openai' | 'pollinations'
+  model?: 'gpt-image-1' | 'dall-e-3' | 'flux'
   size?: '1024x1024' | '512x512' | '256x256'
 }
 
